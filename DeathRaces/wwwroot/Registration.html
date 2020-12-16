@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="css/RegistrationStyle.css">
+</head>
+<bodys>
+    <form method="post" class="form">
+        <div asp-validation-summary="ModelOnly"></div>
+
+        <h3 class="form__title">
+            Регистрация
+        </h3>
+        <div class="form__input-wrapper" data-input="input-1">
+            <input type="text" class="form__input" data-input="input-1">
+            <p class="form__input-text" data-input="input-1">Name</p>
+            <span></span>
+        </div>
+        <div class="form__input-wrapper" data-input="input-1">
+            <input type="email" class="form__input" data-input="input-1">
+            <p class="form__input-text" data-input="input-1">Email</p>
+            <span></span>
+        </div>
+        <div class="form__input-wrapper" data-input="input-1">
+            <input type="text" class="form__input" data-input="input-1" asp-for="Year">
+            <p class="form__input-text" data-input="input-1">Year</p>
+            <span></span>
+        </div>
+        <div class="form__input-wrapper" data-input="input-1">
+            <input type="password" class="form__input" data-input="input-1">
+            <p class="form__input-text" data-input="input-1">Password</p>
+            <span></span>
+        </div>
+        <div class="form__input-wrapper" data-input="input-1">
+            <input type="password" class="form__input" data-input="input-1">
+            <p class="form__input-text" data-input="input-1">PasswordConfirm</p>
+            <span></span>
+        </div>
+        <button class="form__btn">Login</button>
+        <p class="form__help">Don't have an account? <a href="#">Sign Up</a></p>
+    </form>
+   
+</bodys>
+</html>
+
+

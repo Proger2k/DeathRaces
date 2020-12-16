@@ -1,0 +1,22 @@
+.game-zone{
+    position: relative;
+    width: 900px;
+    height: 850px;
+    background-image: url("../sprites/back.png");
+}
+
+.car{
+    position: absolute;
+    width: 40px;
+    height: 74px;
+    background-image: url(../sprites/car1.png);
+    background-repeat: no-repeat;
+}
+
+.bullet{
+    position: absolute;
+    height: 16px;
+    width: 16px;
+
+    background-image: url(../sprites/bullet.png);
+}
