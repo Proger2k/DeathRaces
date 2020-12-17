@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using DeathRaces.Models;
+using DeathRaces;
 
 namespace WebAPIApp
 {
@@ -13,6 +14,7 @@ namespace WebAPIApp
 
             services.AddDbContext<UsersContext>(options => options.UseSqlServer(con));
 
+            services.AddSignalR();
             services.AddControllers(); 
         }
 
@@ -27,7 +29,8 @@ namespace WebAPIApp
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers(); // подключаем маршрутизацию на контроллеры
+                endpoints.MapHub<GameHub>("/game");
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }

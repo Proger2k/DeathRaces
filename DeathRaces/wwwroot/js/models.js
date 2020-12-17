@@ -1,7 +1,5 @@
-class Car
-{
-    constructor(length, width, degrees, x, y, max_V, speed_degree, a)
-    {
+class Car {
+    constructor(length, width, degrees, x, y, max_V, speed_degree, a) {
         this.length = length
         this.width = width
         this.degrees = degrees
@@ -9,83 +7,59 @@ class Car
         this.y = y
         this.max_V = max_V
         this.V = 0
-        this.Vh = this.V * Math.sin((90-degrees)*Math.PI/180)
-        this.Vw = this.V * Math.cos((90-degrees)*Math.PI/180)
-        this.speed_degree = speed_degree  
+        this.Vh = this.V * Math.sin((90 - degrees) * Math.PI / 180)
+        this.Vw = this.V * Math.cos((90 - degrees) * Math.PI / 180)
+        this.speed_degree = speed_degree
         this.a = a
         this.top_or_down = 1
         this.left_or_right = 1
         this.el = false
         this.is_run_top_or_down = false
         this.is_run_left_or_right = false
-    }
-}
-
-class Bullet
-{
-    constructor(length, width, speed)
-    {
-        this.length = length
-        this.width = width
-        this.V = speed
-    }
-}
-
-class Interval
-{
-    constructor()
-    {
-        this.is_run_top_or_down = false
-        this.is_run_left_or_right = false
         this.bullet_is_run = false
     }
 
-    intervals()
-    {
-        this.run_car = setInterval(()=>{
-            if(car.is_run_top_or_down)
-            {
-                switch(car.top_or_down)
-                {
+    intervals() {
+        this.run_car = setInterval(() => {
+            if (this.is_run_top_or_down) {
+                switch (this.top_or_down) {
                     case 1:
-                        car.V += car.a
+                        this.V += this.a
 
-                        if(car.V >= car.max_V) 
-                            car.V = car.max_V
+                        if (this.V >= this.max_V)
+                            this.V = this.max_V
 
-                        car.Vh = car.V * Math.sin((90 - car.degrees)*Math.PI/180)
-                        car.Vw = car.V * Math.cos((90 - car.degrees)*Math.PI/180)
+                        this.Vh = this.V * Math.sin((90 - this.degrees) * Math.PI / 180)
+                        this.Vw = this.V * Math.cos((90 - this.degrees) * Math.PI / 180)
 
-                        car.y -= car.Vh
-                        car.x += car.Vw
+                        this.y -= this.Vh
+                        this.x += this.Vw
 
-                        car.el.style.left = `${car.x}px`
-                        car.el.style.top = `${car.y}px`
+                        this.el.style.left = `${this.x}px`
+                        this.el.style.top = `${this.y}px`
 
                         break
 
-                    case 2: 
-                        car.V -= car.a
+                    case 2:
+                        this.V -= this.a
 
-                        if(car.V <= -car.max_V) 
-                            car.V = -car.max_V
+                        if (this.V <= -this.max_V)
+                            this.V = -this.max_V
 
-                        car.Vh = -car.V * Math.sin((90 - car.degrees)*Math.PI/180)
-                        car.Vw = -car.V * Math.cos((90 - car.degrees)*Math.PI/180)
-                        car.y += car.Vh
-                        car.x -= car.Vw
+                        this.Vh = -this.V * Math.sin((90 - this.degrees) * Math.PI / 180)
+                        this.Vw = -this.V * Math.cos((90 - this.degrees) * Math.PI / 180)
+                        this.y += this.Vh
+                        this.x -= this.Vw
 
-                        car.el.style.left = `${car.x}px`
-                        car.el.style.top = `${car.y}px`
+                        this.el.style.left = `${this.x}px`
+                        this.el.style.top = `${this.y}px`
                         break
                 }
             }
 
-            
-            if(car.is_run_left_or_right && car.is_run_top_or_down || car.is_run_left_or_right && car.V != 0)
-            {
-                switch(car.top_or_down)
-                {
+
+            if (this.is_run_left_or_right && this.is_run_top_or_down || this.is_run_left_or_right && this.V != 0) {
+                switch (this.top_or_down) {
                     case 1:
                         this.direction(1)
                         break
@@ -96,14 +70,11 @@ class Interval
                 }
             }
 
-            if(!car.is_run_top_or_down)
-            {
-                if(car.V > 0)
-                {
+            if (!this.is_run_top_or_down) {
+                if (this.V > 0) {
                     this.direction_breaking(1)
                 }
-                else
-                {
+                else {
                     this.direction_breaking(-1)
                 }
             }
@@ -119,94 +90,105 @@ class Interval
 
                 let top = Number(el.style.top.slice(0, el.style.top.length - 2))
                 let left = Number(el.style.left.slice(0, el.style.left.length - 2))
-                
+
                 //FIXME
-                if(top >= 850 - bullet.length || top <= bullet.length || left <= bullet.width || left >= 900 - bullet.width)
+                if (top >= 850 - bullet.length || top <= bullet.length || left <= bullet.width || left >= 900 - bullet.width)
                     el.parentNode.removeChild(el)
 
                 el.style.top = top - Vh + 'px'
                 el.style.left = left + Vw + 'px'
-
-                
             })
         }, fps)
     }
 
-    direction_breaking(coeff)
-    {
-        switch(car.left_or_right)
-        {
+    direction_breaking(coeff) {
+        switch (this.left_or_right) {
             case 1:
-                car.V = (coeff) * car.V - car.a
+                this.V = (coeff) * this.V - this.a
 
-                if(car.V <= 0)
-                    car.V = 0
+                if (this.V <= 0)
+                    this.V = 0
 
-                car.Vh = car.V * Math.sin((90 - car.degrees)*Math.PI/180)
-                car.Vw = car.V * Math.cos((90 - car.degrees)*Math.PI/180)
+                this.Vh = this.V * Math.sin((90 - this.degrees) * Math.PI / 180)
+                this.Vw = this.V * Math.cos((90 - this.degrees) * Math.PI / 180)
 
-                car.y = (-coeff)*car.Vh + car.y
-                car.x += (coeff)*car.Vw
+                this.y = (-coeff) * this.Vh + this.y
+                this.x += (coeff) * this.Vw
 
-                car.V *= coeff
+                this.V *= coeff
 
-                car.el.style.left = `${car.x}px`
-                car.el.style.top = `${car.y}px`
+                this.el.style.left = `${this.x}px`
+                this.el.style.top = `${this.y}px`
 
                 break
 
             case 2:
-                car.V = (coeff) * car.V - car.a
+                this.V = (coeff) * this.V - this.a
 
-                if(car.V <= 0)
-                    car.V = 0
+                if (this.V <= 0)
+                    this.V = 0
 
-                car.Vh = car.V * Math.sin((90 - car.degrees)*Math.PI/180)
-                car.Vw = car.V * Math.cos((90 - car.degrees)*Math.PI/180)
+                this.Vh = this.V * Math.sin((90 - this.degrees) * Math.PI / 180)
+                this.Vw = this.V * Math.cos((90 - this.degrees) * Math.PI / 180)
 
-                car.y = (-coeff)*car.Vh + car.y
-                car.x = coeff*car.Vw + car.x
+                this.y = (-coeff) * this.Vh + this.y
+                this.x = coeff * this.Vw + this.x
 
-                car.V *= coeff
+                this.V *= coeff
 
-                car.el.style.left = `${car.x}px`
-                car.el.style.top = `${car.y}px`
+                this.el.style.left = `${this.x}px`
+                this.el.style.top = `${this.y}px`
 
                 break
         }
     }
 
-    direction(coeff)
-    {
-        switch(car.left_or_right)
-        {
+    direction(coeff) {
+        switch (this.left_or_right) {
             case 1:
-                car.degrees += (-coeff) * car.speed_degree
+                this.degrees += (-coeff) * this.speed_degree
 
-                if(car.degrees >= 360)
-                    car.degrees -= 360
-                else if(car.degrees <= 0)
-                    car.degrees += 360
+                if (this.degrees >= 360)
+                    this.degrees -= 360
+                else if (this.degrees <= 0)
+                    this.degrees += 360
 
-                car.Vh = car.V * Math.sin((90 - car.degrees)*Math.PI/180)
-                car.Vw = car.V * Math.cos((90 - car.degrees)*Math.PI/180)
+                this.Vh = this.V * Math.sin((90 - this.degrees) * Math.PI / 180)
+                this.Vw = this.V * Math.cos((90 - this.degrees) * Math.PI / 180)
 
-                car.el.style.transform = `rotate(${car.degrees}deg)`
+                this.el.style.transform = `rotate(${this.degrees}deg)`
                 break
 
             case 2:
-                car.degrees += coeff * car.speed_degree
+                this.degrees += coeff * this.speed_degree
 
-                if(car.degrees >= 360)
-                    car.degrees -= 360
-                 else if(car.degrees <= 0)
-                    car.degrees += 360
+                if (this.degrees >= 360)
+                    this.degrees -= 360
+                else if (this.degrees <= 0)
+                    this.degrees += 360
 
-                car.Vh = car.V * Math.sin((90 - car.degrees)*Math.PI/180)
-                car.Vw = car.V * Math.cos((90 - car.degrees)*Math.PI/180)
+                this.Vh = this.V * Math.sin((90 - this.degrees) * Math.PI / 180)
+                this.Vw = this.V * Math.cos((90 - this.degrees) * Math.PI / 180)
 
-                car.el.style.transform = `rotate(${car.degrees}deg)`
+                this.el.style.transform = `rotate(${this.degrees}deg)`
                 break
         }
+    }
+}
+
+class Bullet {
+    constructor(length, width, speed) {
+        this.length = length
+        this.width = width
+        this.V = speed
+    }
+}
+
+class User
+{
+    constructor(car, connectionId)
+    {
+        this.car = car
+        this.connectionId = connectionId
     }
 }

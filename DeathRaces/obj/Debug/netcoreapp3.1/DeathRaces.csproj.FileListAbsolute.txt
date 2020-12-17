@@ -8,8 +8,6 @@ C:\Users\Home\Desktop\DeathRaces\DeathRaces\obj\Debug\netcoreapp3.1\DeathRaces.A
 C:\Users\Home\Desktop\DeathRaces\DeathRaces\obj\Debug\netcoreapp3.1\DeathRaces.RazorTargetAssemblyInfo.cache
 C:\Users\Home\Desktop\DeathRaces\DeathRaces\obj\Debug\netcoreapp3.1\staticwebassets\DeathRaces.StaticWebAssets.Manifest.cache
 C:\Users\Home\Desktop\DeathRaces\DeathRaces\obj\Debug\netcoreapp3.1\staticwebassets\DeathRaces.StaticWebAssets.xml
-C:\Users\Home\Desktop\DeathRaces\DeathRaces\obj\Debug\netcoreapp3.1\DeathRaces.csproj.CoreCompileInputs.cache
-C:\Users\Home\Desktop\DeathRaces\DeathRaces\obj\Debug\netcoreapp3.1\DeathRaces.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Home\Desktop\DeathRaces\DeathRaces\bin\Debug\netcoreapp3.1\DeathRaces.deps.json
 C:\Users\Home\Desktop\DeathRaces\DeathRaces\bin\Debug\netcoreapp3.1\DeathRaces.runtimeconfig.json
 C:\Users\Home\Desktop\DeathRaces\DeathRaces\bin\Debug\netcoreapp3.1\DeathRaces.runtimeconfig.dev.json
@@ -59,3 +57,6 @@ C:\Users\Home\Desktop\DeathRaces\DeathRaces\obj\Debug\netcoreapp3.1\DeathRaces.c
 C:\Users\Home\Desktop\DeathRaces\DeathRaces\obj\Debug\netcoreapp3.1\DeathRaces.dll
 C:\Users\Home\Desktop\DeathRaces\DeathRaces\obj\Debug\netcoreapp3.1\DeathRaces.pdb
 C:\Users\Home\Desktop\DeathRaces\DeathRaces\obj\Debug\netcoreapp3.1\DeathRaces.genruntimeconfig.cache
+C:\Users\Home\Desktop\DeathRaces\DeathRaces\bin\Debug\netcoreapp3.1\libman.json
+C:\Users\Home\Desktop\DeathRaces\DeathRaces\obj\Debug\netcoreapp3.1\DeathRaces.csproj.CoreCompileInputs.cache
+C:\Users\Home\Desktop\DeathRaces\DeathRaces\obj\Debug\netcoreapp3.1\DeathRaces.MvcApplicationPartsAssemblyInfo.cache
