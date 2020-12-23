@@ -1,12 +1,17 @@
-async function Registration(user) {
-    let response = await fetch("users/registration", {
+﻿async function Login(user) {
+    let response = await fetch("users/login", {
         method: "POST",
         headers: { "Accept": "application/json", "Content-Type": "application/json" },
         body: JSON.stringify(user)
     });
     if (response.ok === true) {
+
         const user = await response.json()
-        document.location.href = "index.html" + "?id=" + user.id
+
+        document.location.href = "index.html" + "?id=" + user.userid
+    }
+    else {
+        console.log()
     }
 }
 
@@ -18,22 +23,17 @@ function addError(errors) {
     });
 }
 
-document.forms["registrationForm"].addEventListener("submit", e => {
+document.forms["loginForm"].addEventListener("submit", e => {
     e.preventDefault();
-    const form = document.forms["registrationForm"]
+
+    const form = document.forms["loginForm"]
     const name = form.elements["name"].value
-    const email = form.elements["email"].value
-    const age = parseInt(form.elements["age"].value)
     const password = form.elements["password"].value
-    const passwordConfirm = form.elements["passwordConfirm"].value
 
     let user = {
         'nickName': name,
-        'email': email,
-        'age': age,
-        'password': password,
-        'passwordConfirm': passwordConfirm
+        'password': password
     }
 
-    Registration(user)
+    Login(user)
 })

@@ -1,0 +1,39 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="css/RegistrationStyle.css">
+    <meta charset='utf-8'>
+</head>
+<body>
+    <form name="loginForm" class="form">
+        <h3 class="form__title">
+            Login
+        </h3>
+
+        <div id="errors" class="alert alert-danger" style="display:none;"></div>
+
+        <div class="form__input-wrapper" data-input="input-1">
+            <input name="name" type="text" class="form__input" data-input="input-1">
+            <p class="form__input-text" data-input="input-1">Name</p>
+            <span></span>
+        </div>
+
+        <div class="form__input-wrapper" data-input="input-1">
+            <input name="password" id="password" type="password" class="form__input" data-input="input-1">
+            <p class="form__input-text" data-input="input-1">Password</p>
+            <span></span>
+        </div>
+
+        <button type="submit" id='submit' class="form__btn">Login</button>
+
+        <p class="form__help">
+            Don't have an account? <a href='javascript: document.location.href = "registration.html";'>Register</a>
+        </p>
+    </form>
+
+    <script src="js/login.js"></script>
+</body>
+</html>
+
+

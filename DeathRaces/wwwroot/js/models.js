@@ -17,6 +17,7 @@ class Car {
         this.is_run_top_or_down = false
         this.is_run_left_or_right = false
         this.bullet_is_run = false
+        this.is_shot = false
     }
 
     intervals() {
@@ -79,6 +80,9 @@ class Car {
                 }
             }
 
+            if (is_conected)
+                hubConnection.invoke('Send', { 'connectionId': "", 'x': this.x, 'y': this.y, 'degrees': this.degrees, 'isShot': false, 'userName': client.userName })
+
         }, fps)
 
         this.run_bullet = setInterval(() => {
@@ -99,6 +103,7 @@ class Car {
                 el.style.left = left + Vw + 'px'
             })
         }, fps)
+
     }
 
     direction_breaking(coeff) {

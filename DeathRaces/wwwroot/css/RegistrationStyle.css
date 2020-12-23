@@ -1,5 +1,5 @@
 
-bodys {
+body {
 	background: url('../sprites/reg.jpg') no-repeat center top / cover;
 	height: 100vh;
 	display: flex;

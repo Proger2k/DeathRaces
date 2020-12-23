@@ -58,5 +58,11 @@ C:\Users\Home\Desktop\DeathRaces\DeathRaces\obj\Debug\netcoreapp3.1\DeathRaces.d
 C:\Users\Home\Desktop\DeathRaces\DeathRaces\obj\Debug\netcoreapp3.1\DeathRaces.pdb
 C:\Users\Home\Desktop\DeathRaces\DeathRaces\obj\Debug\netcoreapp3.1\DeathRaces.genruntimeconfig.cache
 C:\Users\Home\Desktop\DeathRaces\DeathRaces\bin\Debug\netcoreapp3.1\libman.json
+C:\Users\Home\Desktop\DeathRaces\DeathRaces\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Home\Desktop\DeathRaces\DeathRaces\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Home\Desktop\DeathRaces\DeathRaces\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Home\Desktop\DeathRaces\DeathRaces\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Home\Desktop\DeathRaces\DeathRaces\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Core.dll
+C:\Users\Home\Desktop\DeathRaces\DeathRaces\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\Home\Desktop\DeathRaces\DeathRaces\obj\Debug\netcoreapp3.1\DeathRaces.csproj.CoreCompileInputs.cache
 C:\Users\Home\Desktop\DeathRaces\DeathRaces\obj\Debug\netcoreapp3.1\DeathRaces.MvcApplicationPartsAssemblyInfo.cache
