@@ -30,14 +30,8 @@ class Car {
                         if (this.V >= this.max_V)
                             this.V = this.max_V
 
-                        this.Vh = this.V * Math.sin((90 - this.degrees) * Math.PI / 180)
-                        this.Vw = this.V * Math.cos((90 - this.degrees) * Math.PI / 180)
-
-                        this.y -= this.Vh
-                        this.x += this.Vw
-
-                        this.el.style.left = `${this.x}px`
-                        this.el.style.top = `${this.y}px`
+                        this.is_barrier()
+                        this.update_coordinates(1)
 
                         break
 
@@ -47,19 +41,14 @@ class Car {
                         if (this.V <= -this.max_V)
                             this.V = -this.max_V
 
-                        this.Vh = -this.V * Math.sin((90 - this.degrees) * Math.PI / 180)
-                        this.Vw = -this.V * Math.cos((90 - this.degrees) * Math.PI / 180)
-                        this.y += this.Vh
-                        this.x -= this.Vw
+                        this.is_barrier()
+                        this.update_coordinates(-1)
 
-                        this.el.style.left = `${this.x}px`
-                        this.el.style.top = `${this.y}px`
                         break
                 }
             }
 
-
-            if (this.is_run_left_or_right && this.is_run_top_or_down || this.is_run_left_or_right && this.V != 0) {
+            if (this.is_run_left_or_right && this.is_run_top_or_down && this.V != 0 || this.is_run_left_or_right && this.V != 0) {
                 switch (this.top_or_down) {
                     case 1:
                         this.direction(1)
@@ -73,9 +62,11 @@ class Car {
 
             if (!this.is_run_top_or_down) {
                 if (this.V > 0) {
+                    this.is_barrier()
                     this.direction_breaking(1)
                 }
                 else {
+                    this.is_barrier()
                     this.direction_breaking(-1)
                 }
             }
@@ -96,7 +87,7 @@ class Car {
                 let left = Number(el.style.left.slice(0, el.style.left.length - 2))
 
                 //FIXME
-                if (top >= 850 - bullet.length || top <= bullet.length || left <= bullet.width || left >= 900 - bullet.width)
+                if (top >= gameZone.getBoundingClientRect().bottom - bullet.length || top <= bullet.length || left <= bullet.width || left >= gameZone.getBoundingClientRect().right - bullet.width)
                     el.parentNode.removeChild(el)
 
                 el.style.top = top - Vh + 'px'
@@ -153,31 +144,159 @@ class Car {
             case 1:
                 this.degrees += (-coeff) * this.speed_degree
 
-                if (this.degrees >= 360)
-                    this.degrees -= 360
-                else if (this.degrees <= 0)
-                    this.degrees += 360
-
-                this.Vh = this.V * Math.sin((90 - this.degrees) * Math.PI / 180)
-                this.Vw = this.V * Math.cos((90 - this.degrees) * Math.PI / 180)
-
-                this.el.style.transform = `rotate(${this.degrees}deg)`
+                this.update_degrees() 
                 break
 
             case 2:
                 this.degrees += coeff * this.speed_degree
 
-                if (this.degrees >= 360)
-                    this.degrees -= 360
-                else if (this.degrees <= 0)
-                    this.degrees += 360
-
-                this.Vh = this.V * Math.sin((90 - this.degrees) * Math.PI / 180)
-                this.Vw = this.V * Math.cos((90 - this.degrees) * Math.PI / 180)
-
-                this.el.style.transform = `rotate(${this.degrees}deg)`
+                this.update_degrees()   
                 break
         }
+    }
+
+    update_coordinates(coeff) {
+        this.Vh = coeff * this.V * Math.sin((90 - this.degrees) * Math.PI / 180)
+        this.Vw = coeff * this.V * Math.cos((90 - this.degrees) * Math.PI / 180)
+
+        this.y = this.y - coeff * this.Vh
+        this.x = this.x + coeff * this.Vw
+
+        this.el.style.left = `${this.x}px`
+        this.el.style.top = `${this.y}px`
+    }
+
+    update_degrees() {
+        if (this.degrees >= 360)
+            this.degrees -= 360
+        else if (this.degrees <= 0)
+            this.degrees += 360
+
+        this.Vh = this.V * Math.sin((90 - this.degrees) * Math.PI / 180)
+        this.Vw = this.V * Math.cos((90 - this.degrees) * Math.PI / 180)
+
+        this.el.style.transform = `rotate(${this.degrees}deg)`
+    }
+
+    is_barrier() {
+        if (car.y >= gameZone.getBoundingClientRect().bottom - car.length * 3 + 30 || car.y <= 15 || car.x <= 15 || car.x >= gameZone.getBoundingClientRect().right - car.length) {
+            if (this.is_run_top_or_down) {
+
+                let x
+                let y
+
+                switch (this.top_or_down) {
+                    case 1:
+                        this.V += this.a
+
+                        if (this.V >= this.max_V)
+                            this.V = this.max_V
+
+                        this.Vh = this.V * Math.sin((90 - this.degrees) * Math.PI / 180)
+                        this.Vw = this.V * Math.cos((90 - this.degrees) * Math.PI / 180)
+
+                        x = this.x
+                        y = this.y
+
+                        this.y -= this.Vh
+                        this.x += this.Vw
+
+                        if (this.is_outside_the_map(x, y)) {
+                            this.x = x
+                            this.y = y
+                            this.V = 0
+                        }
+
+                        break
+
+                    case 2:
+                        this.V -= this.a
+
+                        if (this.V <= -this.max_V)
+                            this.V = -this.max_V
+
+                        this.Vh = -this.V * Math.sin((90 - this.degrees) * Math.PI / 180)
+                        this.Vw = -this.V * Math.cos((90 - this.degrees) * Math.PI / 180)
+
+                        x = this.x
+                        y = this.y
+
+                        this.y += this.Vh
+                        this.x -= this.Vw
+
+                        if (this.is_outside_the_map(x, y)) {
+                            this.x = x
+                            this.y = y
+                            this.V = 0
+                        }
+
+                        break
+                }
+            }
+
+            if (!this.is_run_top_or_down) {
+                if (this.V > 0) {
+                    this.V = this.V - this.a
+
+                    if (this.V <= 0)
+                        this.V = 0
+
+                    this.Vh = this.V * Math.sin((90 - this.degrees) * Math.PI / 180)
+                    this.Vw = this.V * Math.cos((90 - this.degrees) * Math.PI / 180)
+
+                    x = this.x
+                    y = this.y
+
+                    this.y -= this.Vh
+                    this.x += this.Vw
+
+                    if (this.is_outside_the_map(x, y)) {
+                        this.x = x
+                        this.y = y
+                        this.V = 0
+                    }
+                }
+                else {
+                    this.V = -this.V - this.a
+
+                    if (this.V <= 0)
+                        this.V = 0
+
+                    this.Vh = this.V * Math.sin((90 - this.degrees) * Math.PI / 180)
+                    this.Vw = this.V * Math.cos((90 - this.degrees) * Math.PI / 180)
+
+                    x = this.x
+                    y = this.y
+
+                    this.y += this.y
+                    this.x -= this.x
+
+                    this.V *= -1
+
+                    if (this.is_outside_the_map(x, y)) {
+                        this.x = x
+                        this.y = y
+                        this.V = 0
+                    }
+                }
+            }
+        }
+    }
+
+    is_outside_the_map(x, y) {
+        if (car.y >= gameZone.getBoundingClientRect().bottom - car.length * 3 - 30 && y >= car.y) 
+            return false
+
+        else if (car.y <= 20 && y <= car.y) 
+            return false
+
+        if (car.x <= 30 && x < car.x)
+            return false
+
+        else if (car.x >= gameZone.getBoundingClientRect().right - 2*car.length && x >= car.x)
+            return false
+
+        return true
     }
 }
 

@@ -1,7 +1,8 @@
 .game-zone{
     position: relative;
-    width: 900px;
-    height: 850px;
+    min-height:100vh;
+    padding: 0;
+    margin: 0;
     background-image: url("../sprites/back.png");
 }
 
