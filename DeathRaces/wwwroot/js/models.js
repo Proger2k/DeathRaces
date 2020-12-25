@@ -113,6 +113,8 @@ class Car {
                     else if (hp < 50) {
                         elemHP.textContent = hp
                         this.el.style.backgroundImage = "url('../sprites/car(1).png')"
+                        car.max_V = 2
+                        car.a = 0.02
                         hubConnection.invoke('Send', { 'connectionId': "", 'x': this.x, 'y': this.y, 'degrees': this.degrees, 'isShot': false, 'userName': client.userName, 'isHit': false, 'img': true })
                     }
                     else {
@@ -341,11 +343,11 @@ class Car {
     }
 
     restart() {
-        this.x = randomInteger(10, 400)
-        this.y = randomInteger(15, 400)
+        car.x = randomInteger(10, 400)
+        car.y = randomInteger(15, 400)
         let elemHP = document.getElementById('hp')
         elemHP.textContent = 100
-        this.degrees = 0
+        car.degrees = 0
         gameZone.innerHTML += `<div class="main-car" style="left: ${this.x}px; top: ${this.y}px; transform: rotate(${this.degrees}deg);"><span class="nav-link waves-effect" style="color:red;">You</span></div>`
         car.el = document.querySelector('.main-car')
         is_conected = true
