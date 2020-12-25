@@ -24,6 +24,7 @@ class Car {
     intervals() {
         this.run_car = setInterval(() => {
             if (this.is_hits) {
+                this.is_hits = false
                 setTimeout(this.restart, 3000)
             }
 
@@ -323,21 +324,12 @@ class Car {
     }
 
     restart() {
-        console.log("hi")
-        this.is_hits = false
-        this.x = this.randomInteger(10, 200)
-        this.y = this.randomInteger(15, 200)
-        gameZone.innerHTML += `<div class="car" main_car style="left: ${car.x}px; top: ${car.y}px; transform: rotate(${car.degrees}deg);"><span class="nav-link waves-effect" style="color:red;">You</span></div>`
-        car.el = document.querySelector('.car')
+        this.x = randomInteger(10, 400)
+        this.y = randomInteger(15, 400)
+        gameZone.innerHTML += `<div class="main-car" style="left: ${car.x}px; top: ${car.y}px; transform: rotate(${car.degrees}deg);"><span class="nav-link waves-effect" style="color:red;">You</span></div>`
+        car.el = document.querySelector('.main-car')
         is_conected = true
     }
-
-    randomInteger(min, max) {
-        let rand = min + Math.random() * (max + 1 - min);
-        return Math.floor(rand);
-    }
-
-
 }
 
 class Bullet {

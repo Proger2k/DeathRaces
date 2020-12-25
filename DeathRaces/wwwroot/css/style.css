@@ -14,6 +14,14 @@
     background-repeat: no-repeat;
 }
 
+.main-car {
+    position: absolute;
+    width: 40px;
+    height: 74px;
+    background-image: url(../sprites/car1.png);
+    background-repeat: no-repeat;
+}
+
 .bullet{
     position: absolute;
     height: 16px;

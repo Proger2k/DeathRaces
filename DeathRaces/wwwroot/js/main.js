@@ -1,7 +1,7 @@
 function init()
 {
-    gameZone.innerHTML += `<div class="car" main_car style="left: ${car.x}px; top: ${car.y}px; transform: rotate(${car.degrees}deg);"><span class="nav-link waves-effect" style="color:red;">You</span></div>`
-    car.el = document.querySelector('.car')
+    gameZone.innerHTML += `<div class="main-car" style="left: ${car.x}px; top: ${car.y}px; transform: rotate(${car.degrees}deg);"><span class="nav-link waves-effect" style="color:red;">You</span></div>`
+    car.el = document.querySelector('.main-car')
 }
 
 function game()
@@ -38,6 +38,11 @@ async function verify() {
     }
 }
 
+function randomInteger(min, max) {
+    let rand = min + Math.random() * (max + 1 - min);
+    return Math.floor(rand);
+}
+
 let gameZone = document.querySelector('.game-zone')
 
 let fps = 1000 / 60
@@ -47,8 +52,8 @@ let is_conected = false
 let length = 75
 let width = 35
 let degrees = 0
-let x = 500
-let y = 500
+let x = randomInteger(10, 400)
+let y = randomInteger(15, 400)
 let max_V = 5
 let speed_degrees = 1
 let a = 0.03
@@ -79,7 +84,17 @@ hubConnection.on('Notify', function (connectionId, status) {
             if (element.connectionId = connectionId)
                 return true
         })
-        delete users[users.indexOf(user)]
+
+        let mass = []
+        for (let i = 0; i < users.length; i++) {
+            if (i != users.indexOf(user))
+                mass.push(users[i])
+        }
+
+        users.length = 0
+        for (let i = 0; i < mass.length; i++)
+            users.push(mass[i])
+
         let element = document.getElementById(connectionId)
         element.parentNode.removeChild(element)
     }
@@ -96,9 +111,10 @@ hubConnection.on('Receive', function (enemy) {
         let enemyCar = new Car(length, width, enemy.degrees, enemy.x, enemy.y, max_V, speed_degrees, a)
         let user = new User(enemyCar, enemy.connectionId)
 
-        gameZone.innerHTML += `<div class="car" id='${enemy.connectionId}' style="left: ${500}px; top: ${500}px; transform: rotate(${0}deg);"><span class="nav-link waves-effect" style="color:white;">${enemy.userName}</span></div>`
+        gameZone.innerHTML += `<div class="car" id='${enemy.connectionId}' style="left: ${enemy.x}px; top: ${enemy.y}px; transform: rotate(${enemy.degrees}deg);"><span class="nav-link waves-effect" style="color:white;">${enemy.userName}</span></div>`
         user.car.el = document.getElementById(enemy.connectionId)
         users.push(user)
+        hubConnection.invoke('Send', { 'connectionId': "", 'x': user.car.x, 'y': user.car.y, 'degrees': user.car.degrees, 'isShot': false, 'userName': client.userName })
     }
     else if (enemy.isShot)
         gameZone.innerHTML += `<div class="bullet" style="left: ${enemy.x + bullet.width / 2}px; top: ${enemy.y + car.length / 2}px;" rad='${(90 - enemy.degrees) * Math.PI / 180}'></div>`
@@ -106,14 +122,18 @@ hubConnection.on('Receive', function (enemy) {
     if (enemy.isHit) {
         user.car.el.parentNode.removeChild(user.car.el)
     }
-    else {
+    else {     
         user.car.el = document.getElementById(enemy.connectionId)
-        user.car.el.style.left = `${enemy.x}px`
-        user.car.el.style.top = `${enemy.y}px`
-        user.car.el.style.transform = `rotate(${enemy.degrees}deg)`
+        if (user.car.el == undefined)
+            gameZone.innerHTML += `<div class="car" id='${enemy.connectionId}' style="left: ${enemy.x + bullet.width / 2}px; top: ${enemy.y + car.length / 2}px;" rad='${(90 - enemy.degrees) * Math.PI / 180}'><span class="nav-link waves-effect" style="color:white;">${enemy.userName}</span></div>`
+        else {
+            user.car.el.style.left = `${enemy.x}px`
+            user.car.el.style.top = `${enemy.y}px`
+            user.car.el.style.transform = `rotate(${enemy.degrees}deg)`
+        }
     }
     if (!car.is_hits)
-        car.el = document.querySelector('.car')
+        car.el = document.querySelector('.main-car')
 })
 
 
