@@ -2,7 +2,8 @@ function movement() {
     document.addEventListener("keydown", (e) => {
         switch (e.keyCode) {
             case 32:
-                shot()
+                if (!car.is_hits)
+                    shot()
                 break
         }
     })
@@ -65,7 +66,7 @@ function movement() {
 }
 
 function shot() {
-    hubConnection.invoke('Send', { 'connectionId': "", 'x': car.x, 'y': car.y, 'degrees': car.degrees, 'isShot': true, 'userName': client.userName })
-    gameZone.innerHTML += `<div class="bullet" style="left: ${car.x + bullet.width / 2}px; top: ${car.y + car.length / 2}px;" rad='${(90 - car.degrees) * Math.PI / 180}'></div>`
+    hubConnection.invoke('Send', { 'connectionId': "", 'x': car.x, 'y': car.y, 'degrees': car.degrees, 'isShot': true, 'userName': client.userName, 'isHit': false })
+    gameZone.innerHTML += `<div class="bullet" main_bullet="true" style="left: ${car.x + bullet.width / 2}px; top: ${car.y + car.length / 2}px;" rad='${(90 - car.degrees) * Math.PI / 180}'></div>`
     car.el = document.querySelector('.car')
 }

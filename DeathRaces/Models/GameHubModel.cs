@@ -7,6 +7,7 @@
 		public double Y { get; set; }
 		public double Degrees { get; set; }
 		public bool IsShot { get; set; }
+		public bool IsHit { get; set; }
 		public string UserName { get; set; }
 	}
 }

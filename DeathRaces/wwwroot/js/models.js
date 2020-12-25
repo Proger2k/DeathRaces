@@ -18,10 +18,15 @@ class Car {
         this.is_run_left_or_right = false
         this.bullet_is_run = false
         this.is_shot = false
+        this.is_hits = false
     }
 
     intervals() {
         this.run_car = setInterval(() => {
+            if (this.is_hits) {
+                setTimeout(this.restart, 3000)
+            }
+
             if (this.is_run_top_or_down) {
                 switch (this.top_or_down) {
                     case 1:
@@ -72,13 +77,13 @@ class Car {
             }
 
             if (is_conected)
-                hubConnection.invoke('Send', { 'connectionId': "", 'x': this.x, 'y': this.y, 'degrees': this.degrees, 'isShot': false, 'userName': client.userName })
+                hubConnection.invoke('Send', { 'connectionId': "", 'x': this.x, 'y': this.y, 'degrees': this.degrees, 'isShot': false, 'userName': client.userName, 'isHit': false })
 
         }, fps)
 
         this.run_bullet = setInterval(() => {
             let bullets = document.querySelectorAll('.bullet')
-            bullets.forEach((el) => {
+            bullets.forEach((el) => {  
                 let rad = el.getAttribute('rad')
                 let Vh = bullet.V * Math.sin(rad)
                 let Vw = bullet.V * Math.cos(rad)
@@ -86,12 +91,21 @@ class Car {
                 let top = Number(el.style.top.slice(0, el.style.top.length - 2))
                 let left = Number(el.style.left.slice(0, el.style.left.length - 2))
 
-                //FIXME
                 if (top >= gameZone.getBoundingClientRect().bottom - bullet.length || top <= bullet.length || left <= bullet.width || left >= gameZone.getBoundingClientRect().right - bullet.width)
                     el.parentNode.removeChild(el)
 
+                let is_main = el.getAttribute('main_bullet')
+                if (is_main != "true" && this.is_hit(el)) {
+                    this.el.parentNode.removeChild(this.el)
+                    el.parentNode.removeChild(el)
+                    is_conected = false
+                    this.is_hits = true
+                    hubConnection.invoke('Send', { 'connectionId': "", 'x': this.x, 'y': this.y, 'degrees': this.degrees, 'isShot': false, 'userName': client.userName, 'isHit': true })
+                }
+
                 el.style.top = top - Vh + 'px'
                 el.style.left = left + Vw + 'px'
+
             })
         }, fps)
 
@@ -298,6 +312,32 @@ class Car {
 
         return true
     }
+
+    is_hit(el) {
+        if (el.getBoundingClientRect().top < this.el.getBoundingClientRect().bottom &&
+            el.getBoundingClientRect().right > this.el.getBoundingClientRect().left &&
+            el.getBoundingClientRect().left < this.el.getBoundingClientRect().right)
+            return true
+        else
+            return false
+    }
+
+    restart() {
+        console.log("hi")
+        this.is_hits = false
+        this.x = this.randomInteger(10, 200)
+        this.y = this.randomInteger(15, 200)
+        gameZone.innerHTML += `<div class="car" main_car style="left: ${car.x}px; top: ${car.y}px; transform: rotate(${car.degrees}deg);"><span class="nav-link waves-effect" style="color:red;">You</span></div>`
+        car.el = document.querySelector('.car')
+        is_conected = true
+    }
+
+    randomInteger(min, max) {
+        let rand = min + Math.random() * (max + 1 - min);
+        return Math.floor(rand);
+    }
+
+
 }
 
 class Bullet {
