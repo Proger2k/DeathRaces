@@ -121,6 +121,9 @@ hubConnection.on('Receive', function (enemy) {
 
     if (enemy.isHit) {
         user.car.el.parentNode.removeChild(user.car.el)
+        let obj = document.getElementById('score')
+        let score = parseInt(obj.textContent)
+        obj.textContent = score + 1
     }
     else {     
         user.car.el = document.getElementById(enemy.connectionId)

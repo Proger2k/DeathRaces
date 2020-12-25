@@ -315,9 +315,10 @@ class Car {
     }
 
     is_hit(el) {
-        if (el.getBoundingClientRect().top < this.el.getBoundingClientRect().bottom &&
+        if (el.getBoundingClientRect().bottom > this.el.getBoundingClientRect().top &&
             el.getBoundingClientRect().right > this.el.getBoundingClientRect().left &&
-            el.getBoundingClientRect().left < this.el.getBoundingClientRect().right)
+            el.getBoundingClientRect().left < this.el.getBoundingClientRect().right &&
+            el.getBoundingClientRect().top < this.el.getBoundingClientRect().bottom)
             return true
         else
             return false
@@ -326,7 +327,7 @@ class Car {
     restart() {
         this.x = randomInteger(10, 400)
         this.y = randomInteger(15, 400)
-        gameZone.innerHTML += `<div class="main-car" style="left: ${car.x}px; top: ${car.y}px; transform: rotate(${car.degrees}deg);"><span class="nav-link waves-effect" style="color:red;">You</span></div>`
+        gameZone.innerHTML += `<div class="main-car" style="left: ${this.x}px; top: ${this.y}px; transform: rotate(${this.degrees}deg);"><span class="nav-link waves-effect" style="color:red;">You</span></div>`
         car.el = document.querySelector('.main-car')
         is_conected = true
     }
