@@ -9,5 +9,6 @@
 		public bool IsShot { get; set; }
 		public bool IsHit { get; set; }
 		public string UserName { get; set; }
+		public bool Img { get; set; }
 	}
 }

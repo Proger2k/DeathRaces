@@ -13,7 +13,6 @@ function movement() {
     document.addEventListener("keydown", (e) => {
         switch (e.keyCode) {
             case 38:
-                is_conected = true
                 car.is_run_top_or_down = true
                 car.top_or_down = 1
                 break

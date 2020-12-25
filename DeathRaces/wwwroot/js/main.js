@@ -13,10 +13,9 @@ function game()
 
 function startHub()
 {
-
     hubConnection.start()
 
-    game()
+    setTimeout(game, 100)
 }
 
 async function verify() {
@@ -47,7 +46,7 @@ let gameZone = document.querySelector('.game-zone')
 
 let fps = 1000 / 60
 
-let is_conected = false
+let is_conected = true
 
 let length = 75
 let width = 35
@@ -63,8 +62,9 @@ let car = new Car(length, width, degrees, x, y, max_V, speed_degrees, a)
 let length_bullet = 16
 let width_bullet = 16
 let speed = 10
+let damage = 20
 
-let bullet = new Bullet(length_bullet, width_bullet, speed)
+let bullet = new Bullet(length_bullet, width_bullet, speed, damage)
 
 let users = []
 
@@ -135,6 +135,9 @@ hubConnection.on('Receive', function (enemy) {
             user.car.el.style.transform = `rotate(${enemy.degrees}deg)`
         }
     }
+    if (enemy.img)
+        user.car.el.style.backgroundImage = "url('../sprites/car(1).png')"
+
     if (!car.is_hits)
         car.el = document.querySelector('.main-car')
 })

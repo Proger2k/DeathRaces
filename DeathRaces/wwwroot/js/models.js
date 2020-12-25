@@ -19,6 +19,7 @@ class Car {
         this.bullet_is_run = false
         this.is_shot = false
         this.is_hits = false
+        this.img = false
     }
 
     intervals() {
@@ -97,11 +98,26 @@ class Car {
 
                 let is_main = el.getAttribute('main_bullet')
                 if (is_main != "true" && this.is_hit(el)) {
-                    this.el.parentNode.removeChild(this.el)
                     el.parentNode.removeChild(el)
-                    is_conected = false
-                    this.is_hits = true
-                    hubConnection.invoke('Send', { 'connectionId': "", 'x': this.x, 'y': this.y, 'degrees': this.degrees, 'isShot': false, 'userName': client.userName, 'isHit': true })
+                    let elemHP = document.getElementById('hp')
+                    let hp = parseInt(elemHP.textContent)
+                    hp -= bullet.damage
+
+                    if (hp <= 0) {
+                        elemHP.textContent = 0
+                        this.el.parentNode.removeChild(this.el)
+                        is_conected = false
+                        this.is_hits = true
+                        hubConnection.invoke('Send', { 'connectionId': "", 'x': this.x, 'y': this.y, 'degrees': this.degrees, 'isShot': false, 'userName': client.userName, 'isHit': true })
+                    }
+                    else if (hp < 50) {
+                        elemHP.textContent = hp
+                        this.el.style.backgroundImage = "url('../sprites/car(1).png')"
+                        hubConnection.invoke('Send', { 'connectionId': "", 'x': this.x, 'y': this.y, 'degrees': this.degrees, 'isShot': false, 'userName': client.userName, 'isHit': false, 'img': true })
+                    }
+                    else {
+                        elemHP.textContent = hp
+                    }
                 }
 
                 el.style.top = top - Vh + 'px'
@@ -327,17 +343,22 @@ class Car {
     restart() {
         this.x = randomInteger(10, 400)
         this.y = randomInteger(15, 400)
+        let elemHP = document.getElementById('hp')
+        elemHP.textContent = 100
+        this.degrees = 0
         gameZone.innerHTML += `<div class="main-car" style="left: ${this.x}px; top: ${this.y}px; transform: rotate(${this.degrees}deg);"><span class="nav-link waves-effect" style="color:red;">You</span></div>`
         car.el = document.querySelector('.main-car')
         is_conected = true
+        hubConnection.invoke('Send', { 'connectionId': "", 'x': this.x, 'y': this.y, 'degrees': this.degrees, 'isShot': false, 'userName': client.userName, 'isHit': true })
     }
 }
 
 class Bullet {
-    constructor(length, width, speed) {
+    constructor(length, width, speed, damage) {
         this.length = length
         this.width = width
         this.V = speed
+        this.damage = damage
     }
 }
 
